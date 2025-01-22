@@ -1,39 +1,39 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
-    <h1 class="text-3xl font-bold text-center mb-6">Gestionar Sucursales</h1>
-
-    <!-- Lista de Sucursales -->
-    <div class="bg-white p-6 shadow-lg rounded-lg mb-6  ">
-          <!-- Botón para abrir el modal -->
+    <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Gestionar Sucursales</h1>
     <button
-      class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+      class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
       @click="openModal()"
     >
       Crear Nueva Sucursal
     </button>
+    <!-- Lista de Sucursales -->
+    <div class="bg-white p-6 shadow-lg rounded-lg mb-6  ">
+          <!-- Botón para abrir el modal -->
+  
 
-      <h2 class="text-xl font-semibold mb-4">Lista de Sucursales</h2>
-      <table class="w-full border-collapse border border-gray-300">
+      <h2 class="text-2xl font-semibold text-gray-700">Lista de Sucursales</h2>
+      <table class="w-full border-collapse bg-white rounded-md overflow-hidden">
         <thead>
-          <tr>
+          <tr class="bg-gray-200 text-gray-700">
          
-            <th class="border border-gray-300 p-2">Nombre</th>
-            <th class="border border-gray-300 p-2">Región</th>
-            <th class="border border-gray-300 p-2">Descripción</th>
-            <th class="border border-gray-300 p-2">Estado</th>
-            <th class="border border-gray-300 p-2">Acciones</th>
+            <th class="p-3 text-left">Nombre</th>
+            <th class="p-3 text-left">Región</th>
+            <th class="p-3 text-left">Descripción</th>
+            <th class="p-3 text-left">Estado</th>
+            <th class="p-3 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="sucursal in sucursales" :key="sucursal.id">
+          <tr v-for="sucursal in sucursales" :key="sucursal.id"  class="odd:bg-gray-50 even:bg-white hover:bg-gray-100">
     
-            <td class="border border-gray-300 p-2">{{ sucursal.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ sucursal.region }}</td>
-            <td class="border border-gray-300 p-2">{{ sucursal.descripcion }}</td>
-            <td class="border border-gray-300 p-2">
+            <td class="p-3 text-gray-800">{{ sucursal.nombre }}</td>
+            <td class="p-3 text-gray-800">{{ sucursal.region }}</td>
+            <td class="p-3 text-gray-800">{{ sucursal.descripcion }}</td>
+            <td class="p-3 text-gray-800">
               {{ sucursal.estado ? 'Activo' : 'Inactivo' }}
             </td>
-            <td class="border border-gray-300 p-2">
+            <td class="p-3 text-gray-800">
               <button
                 class="text-yellow-200 px-2 py-1 mr-2"
                 @click="openModal(sucursal)"

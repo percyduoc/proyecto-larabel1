@@ -5,25 +5,25 @@
     <!-- Lista de Tipos de Venta -->
     <div class="mb-6 bg-white p-6 shadow-md rounded-md">
       <button
-        class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
+        class="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
         @click="openModal()"
       >
         Crear Tipo de Venta
       </button>
-      <h2 class="text-xl font-semibold mb-4">Lista de Tipos de Venta</h2>
+      <h2 class="text-xl font-semibold mb-2">Lista de Tipos de Venta</h2>
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th class="border border-gray-300 p-2">Nombre</th>
-            <th class="border border-gray-300 p-2">Estado</th>
-            <th class="border border-gray-300 p-2">Acciones</th>
+            <th class="p-3 text-left">Nombre</th>
+            <th class="p-3 text-left">Estado</th>
+            <th class="p-3 text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="tipoVenta in tipoVentas" :key="tipoVenta.id" class="hover:bg-gray-100">
-            <td class="border border-gray-300 p-2">{{ tipoVenta.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ tipoVenta.estado ? 'Activo' : 'Inactivo' }}</td>
-            <td class="border border-gray-300 p-2 text-center">
+            <td class="p-3 text-left">{{ tipoVenta.nombre }}</td>
+            <td class="p-3 text-left">{{ tipoVenta.estado ? 'Activo' : 'Inactivo' }}</td>
+            <td class="p-3 text-left ">
               <button
                 class="text-yellow-200 hover:text-yellow-600 px-2"
                 @click="openModal(tipoVenta)"

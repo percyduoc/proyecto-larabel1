@@ -10,8 +10,19 @@ class CuentaController extends Controller
 {
     public function index()
     {
-           
-        return Cuenta::with(['sucursal', 'tipoVenta',])->get();
+        {
+            $cuentas = Cuenta::with(['sucursal', 'tipoVenta'])
+                ->leftJoin('detalle_cuentas as dc', 'cuentas.id', '=', 'dc.id_cuenta')
+                ->select(
+                    'cuentas.*',
+                    DB::raw('COALESCE(SUM(dc.valor_producto * dc.cantidad_producto), 0) as total_cuenta')
+                )
+                ->groupBy('cuentas.id', 'cuentas.nombre', 'cuentas.direccion', 'cuentas.sucursal_id', 'cuentas.tipo_venta_id', 'cuentas.estado', 'cuentas.created_at', 'cuentas.updated_at')
+                ->get();
+        
+            return response()->json($cuentas);
+        }
+        // return Cuenta::with(['sucursal', 'tipoVenta',])->get();
     }
 
     public function store(Request $request)

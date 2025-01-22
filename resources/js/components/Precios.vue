@@ -11,24 +11,24 @@
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th class="border border-gray-300 p-2">Producto</th>
-            <th class="border border-gray-300 p-2">Prestación</th>
-            <th class="border border-gray-300 p-2">Valor</th>
-            <th class="border border-gray-300 p-2">Fecha Desde</th>
-            <th class="border border-gray-300 p-2">Fecha Hasta</th>
-            <th class="border border-gray-300 p-2">Estado</th>
-            <th class="border border-gray-300 p-2">Acciones</th>
+            <th class="p-3 text-left">Producto</th>
+            <th class="p-3 text-left">Prestación</th>
+            <th class="p-3 text-left">Valor</th>
+            <th class="p-3 text-left">Fecha Desde</th>
+            <th class="p-3 text-left">Fecha Hasta</th>
+            <th class="p-3 text-left">Estado</th>
+            <th class="p-3 text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="precio in precios" :key="precio.id">
-            <td class="border border-gray-300 p-2">{{ precio.producto?.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ precio.prestacion?.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ precio.valor }}</td>
-            <td class="border border-gray-300 p-2">{{ precio.fecha_desde }}</td>
-            <td class="border border-gray-300 p-2">{{ precio.fecha_hasta || 'N/A' }}</td>
-            <td class="border border-gray-300 p-2">{{ precio.estado ? 'Activo' : 'Inactivo' }}</td>
-            <td class="border border-gray-300 p-2">
+            <td class="p-3 text-left">{{ precio.producto?.nombre }}</td>
+            <td class="p-3 text-left">{{ precio.prestacion?.nombre }}</td>
+            <td class="p-3 text-left">{{ precio.valor }}</td>
+            <td class="p-3 text-left">{{ precio.fecha_desde }}</td>
+            <td class="p-3 text-left">{{ precio.fecha_hasta || 'N/A' }}</td>
+            <td class="p-3 text-left">{{ precio.estado ? 'Activo' : 'Inactivo' }}</td>
+            <td class="p-3 text-left">
               <button class="text-yellow-200 px-2 py-1 mr-2" @click="editPrecio(precio)">
                 <font-awesome-icon :icon="['fas', 'pen-to-square']" />
               </button>

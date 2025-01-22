@@ -24,7 +24,7 @@
         <td class="px-4 py-2 border border-gray-200">{{ item.codigo }}</td>
         <td class="px-4 py-2 border border-gray-200">{{ item.nombre }}</td>
         <td class="px-4 py-2 border border-gray-200">{{ item.valor }}</td>
-        <td class="border border-gray-300 p-2">{{ item.estado ? 'Activo' : 'Inactivo' }}</td>
+        <td class="p-3 text-left">{{ item.estado ? 'Activo' : 'Inactivo' }}</td>
         <td class="px-4 py-2 border border-gray-200">
           <button @click="editItem(item.id)" class="text-yellow-200 px-2 py-1 mr-2"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></button>
           <button @click="deleteItem(item.id)" class="text-red-600 px-2 py-1"><font-awesome-icon :icon="['fas', 'trash']" /></button>

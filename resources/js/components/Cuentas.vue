@@ -1,139 +1,183 @@
 <template>
-    <div class="p-6 bg-gray-100 min-h-screen w-full">
-      <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Cuentas</h1>
-  
-      <!-- Lista de cuentas -->
-      <div class="bg-white p-6 shadow-lg rounded-lg mb-6">
+  <div class="p-6 bg-gray-50 min-h-screen w-full">
+    <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Gestión de Cuentas</h1>
+
+    <!-- Lista de cuentas -->
+    <div class="bg-white p-6 shadow-lg rounded-lg mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-gray-700">Lista de Cuentas</h2>
         <button
-        @click="openModal()"
-        class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-      >
-        Crear Nueva Cuenta
-      </button>
-        <h2 class="text-xl font-semibold mb-4">Lista de Cuentas</h2>
-        <table class="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th class="border border-gray-300 p-2">Nombre</th>
-              <th class="border border-gray-300 p-2">Dirección</th>
-              <th class="border border-gray-300 p-2">Sucursal</th>
-              <th class="border border-gray-300 p-2">Tipo de Venta</th>
-              <th class="border border-gray-300 p-2">Estado</th> <!-- Agregado estado -->
-              <th class="border border-gray-300 p-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="cuenta in cuentas" :key="cuenta.id" class="hover:bg-gray-100">
-              <td class="border border-gray-300 p-2">{{ cuenta.nombre }}</td>
-              <td class="border border-gray-300 p-2">{{ cuenta.direccion }}</td>
-              <td class="border border-gray-300 p-2">{{ cuenta.sucursal ? cuenta.sucursal.nombre : '' }}</td>
-              <td class="border border-gray-300 p-2">{{ cuenta.tipo_venta ? cuenta.tipo_venta.nombre : '' }}</td>
-              <td class="border border-gray-300 p-2">{{ cuenta.estado ? 'Activo' : 'Inactivo' }}</td> <!-- Mostrar estado -->
-              <td class="border border-gray-300 p-2">
-                
-                <button class="text-yellow-200 px-2 py-1 mr-2" @click="editCuenta(cuenta)">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                </button>
-                <button class="text-blue-200 px-2 py-1 mr-2" @click="goToCuentaDetalle(cuenta.id)">
-                  <font-awesome-icon :icon="['fas', 'eye']" />
-                </button>
-                <button class="text-red-600 px-2 py-1" @click="deleteCuenta(cuenta.id)">
-                  <font-awesome-icon :icon="['fas', 'trash']" />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          @click="openModal()"
+          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
+        >
+          Crear Nueva Cuenta
+        </button>
       </div>
-  
-      <!-- Botón para abrir el formulario modal -->
-     
-  
-      <!-- Modal de formulario -->
-      <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg w-1/2">
-          <h2 class="text-xl font-semibold mb-4">{{ editing ? 'Editar Cuenta' : 'Crear Cuenta' }}</h2>
-          <form @submit.prevent="saveCuenta" class="space-y-4">
-            <div>
-              <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
-              <input
-                id="nombre"
-                v-model="form.nombre"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección:</label>
-              <input
-                id="direccion"
-                v-model="form.direccion"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label for="sucursal_id" class="block text-sm font-medium text-gray-700">Sucursal:</label>
-              <select
-                id="sucursal_id"
-                v-model="form.sucursal_id"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option v-for="sucursal in sucursales" :key="sucursal.id" :value="sucursal.id">{{ sucursal.nombre }}</option>
-              </select>
-            </div>
-            <div>
-              <label for="tipo_venta_id" class="block text-sm font-medium text-gray-700">Tipo de Venta:</label>
-              <select
-                id="tipo_venta_id"
-                v-model="form.tipo_venta_id"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option v-for="tipoVenta in tipoVentas" :key="tipoVenta.id" :value="tipoVenta.id">{{ tipoVenta.nombre }}</option>
-              </select>
-            </div>
-            <div>
-              <label for="estado" class="block text-sm font-medium text-gray-700">Estado:</label>
-              <select
-                id="estado"
-                v-model="form.estado"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-              </select>
-            </div>
-            <div class="flex items-center space-x-2">
+      <table class="w-full border-collapse bg-white rounded-md overflow-hidden">
+        <thead>
+          <tr class="bg-gray-200 text-gray-700">
+            <th class="p-3 text-left">Nombre</th>
+            <th class="p-3 text-left">Dirección</th>
+            <th class="p-3 text-left">Sucursal</th>
+            <th class="p-3 text-left">Tipo de Venta</th>
+            <th class="p-3 text-left">Estado</th>
+            <th class="p-3 text-left">Total Cuenta</th>
+            <th class="p-3 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="cuenta in cuentas"
+            :key="cuenta.id"
+            class="odd:bg-gray-50 even:bg-white hover:bg-gray-100"
+          >
+            <td class="p-3 text-gray-800">{{ cuenta.nombre }}</td>
+            <td class="p-3 text-gray-800">{{ cuenta.direccion }}</td>
+            <td class="p-3 text-gray-800">
+              {{ cuenta.sucursal ? cuenta.sucursal.nombre : '' }}
+            </td>
+            <td class="p-3 text-gray-800">
+              {{ cuenta.tipo_venta ? cuenta.tipo_venta.nombre : '' }}
+            </td>
+            <td class="p-3 text-gray-800">
+              {{ cuenta.estado ? 'Activo' : 'Inactivo' }}
+            </td>
+            <td class="p-3 text-gray-800 bg-green-200 rounded-full  ">{{ cuenta.total_cuenta }}</td>
+            <td class="p-3 flex justify-center gap-2">
               <button
-                type="submit"
-                class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                class="text-yellow-500 hover:text-yellow-600"
+                @click="editCuenta(cuenta)"
               >
-                {{ editing ? 'Actualizar' : 'Guardar' }}
+                <font-awesome-icon :icon="['fas', 'pen-to-square']" />
               </button>
               <button
-                v-if="editing"
-                type="button"
-                @click="cancelEdit"
-                class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                class="text-blue-500 hover:text-blue-600"
+                @click="goToCuentaDetalle(cuenta.id)"
               >
-                Cancelar
+                <font-awesome-icon :icon="['fas', 'eye']" />
               </button>
               <button
-                type="button"
-                @click="closeModal"
-                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                class="text-red-500 hover:text-red-600"
+                @click="deleteCuenta(cuenta.id)"
               >
-                Cerrar
+                <font-awesome-icon :icon="['fas', 'trash']" />
               </button>
-            </div>
-          </form>
-        </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal de formulario -->
+    <div
+      v-if="showModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-700">
+          {{ editing ? 'Editar Cuenta' : 'Crear Cuenta' }}
+        </h2>
+        <form @submit.prevent="saveCuenta" class="space-y-4">
+          <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-700"
+              >Nombre:</label
+            >
+            <input
+              id="nombre"
+              v-model="form.nombre"
+              required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              for="direccion"
+              class="block text-sm font-medium text-gray-700"
+              >Dirección:</label
+            >
+            <input
+              id="direccion"
+              v-model="form.direccion"
+              required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              for="sucursal_id"
+              class="block text-sm font-medium text-gray-700"
+              >Sucursal:</label
+            >
+            <select
+              id="sucursal_id"
+              v-model="form.sucursal_id"
+              required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            >
+              <option
+                v-for="sucursal in sucursales"
+                :key="sucursal.id"
+                :value="sucursal.id"
+              >
+                {{ sucursal.nombre }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label
+              for="tipo_venta_id"
+              class="block text-sm font-medium text-gray-700"
+              >Tipo de Venta:</label
+            >
+            <select
+              id="tipo_venta_id"
+              v-model="form.tipo_venta_id"
+              required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            >
+              <option
+                v-for="tipoVenta in tipoVentas"
+                :key="tipoVenta.id"
+                :value="tipoVenta.id"
+              >
+                {{ tipoVenta.nombre }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="estado" class="block text-sm font-medium text-gray-700"
+              >Estado:</label
+            >
+            <select
+              id="estado"
+              v-model="form.estado"
+              required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
+          </div>
+          <div class="flex items-center justify-end gap-3">
+            <button
+              type="button"
+              @click="closeModal"
+              class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+            >
+              Cerrar
+            </button>
+            <button
+              type="submit"
+              class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            >
+              {{ editing ? 'Actualizar' : 'Guardar' }}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import axios from 'axios';
@@ -149,7 +193,7 @@
           direccion: '',
           sucursal_id: '',
           tipo_venta_id: '',
-          estado: 'activo', // Valor por defecto
+          estado: 'activo', 
         },
         editing: false,
         showModal: false,
@@ -157,8 +201,18 @@
     },
     methods: {
       fetchCuentas() {
-        axios.get('/api/cuentas').then((response) => (this.cuentas = response.data));
-      },
+    axios
+      .get('/api/cuentas')
+      .then((response) => {
+        this.cuentas = response.data.map((cuenta) => ({
+          ...cuenta,
+          total_cuenta: cuenta.total_cuenta || 0, 
+        }));
+      })
+      .catch((error) => {
+        console.error('Error al obtener cuentas:', error);
+      });
+  },
       fetchSucursales() {
         axios
           .get("/api/sucursales")

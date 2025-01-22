@@ -15,22 +15,22 @@
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th class="border border-gray-300 p-2">Código</th>
-            <th class="border border-gray-300 p-2">Nombre</th>
-            <th class="border border-gray-300 p-2">Tipo de Prestación</th>
-            <th class="border border-gray-300 p-2">Valor</th>
-            <th class="border border-gray-300 p-2">Estado</th>
-            <th class="border border-gray-300 p-2">Acciones</th>
+            <th class="p-3 text-left">Código</th>
+            <th class="p-3 text-left">Nombre</th>
+            <th class="p-3 text-left">Tipo de Prestación</th>
+            <th class="p-3 text-left">Valor</th>
+            <th class="p-3 text-left">Estado</th>
+            <th class="p-3 text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="prestacion in prestaciones" :key="prestacion.codigo" class="hover:bg-gray-100">
-            <td class="border border-gray-300 p-2">{{ prestacion.codigo }}</td>
-            <td class="border border-gray-300 p-2">{{ prestacion.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ prestacion.tipo_prestacion?.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ prestacion.valor }}</td>
-            <td class="border border-gray-300 p-2">{{ prestacion.estado ? 'Activo' : 'Inactivo' }}</td>
-            <td class="border border-gray-300 p-2">
+            <td class="p-3 text-left">{{ prestacion.codigo }}</td>
+            <td class="p-3 text-left">{{ prestacion.nombre }}</td>
+            <td class="p-3 text-left">{{ prestacion.tipo_prestacion?.nombre }}</td>
+            <td class="p-3 text-left">{{ prestacion.valor }}</td>
+            <td class="p-3 text-left">{{ prestacion.estado ? 'Activo' : 'Inactivo' }}</td>
+            <td class="p-3 text-left">
               <button class="text-yellow-200 px-2 py-1 mr-2" @click="editPrestacion(prestacion)">
                 <font-awesome-icon :icon="['fas', 'pen-to-square']" />
               </button>

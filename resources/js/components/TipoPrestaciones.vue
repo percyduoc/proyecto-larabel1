@@ -16,18 +16,18 @@
       <table class="w-full border-collapse border border-gray-300 text-sm">
         <thead>
           <tr class="bg-gray-200">
-            <th class="border border-gray-300 p-2 text-left">Nombre</th>
-            <th class="border border-gray-300 p-2 text-left">Estado</th>
-            <th class="border border-gray-300 p-2 text-left">Descripción</th>
-            <th class="border border-gray-300 p-2 text-center">Acciones</th>
+            <th class="p-3 text-left text-left">Nombre</th>
+            <th class="p-3 text-left text-left">Estado</th>
+            <th class="p-3 text-left text-left">Descripción</th>
+            <th class="p-3 text-left text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="tipo in tipoPrestaciones" :key="tipo.id" class="hover:bg-gray-100">
-            <td class="border border-gray-300 p-2">{{ tipo.nombre }}</td>
-            <td class="border border-gray-300 p-2">{{ tipo.estado ? 'Activo' : 'Inactivo' }}</td>
-            <td class="border border-gray-300 p-2">{{ tipo.descripcion }}</td>
-            <td class="border border-gray-300 p-2 text-center">
+            <td class="p-3 text-left">{{ tipo.nombre }}</td>
+            <td class="p-3 text-left">{{ tipo.estado ? 'Activo' : 'Inactivo' }}</td>
+            <td class="p-3 text-left">{{ tipo.descripcion }}</td>
+            <td class="p-3 text-left text-center">
               <button
                 class="text-yellow-200 hover:text-yellow-600 px-2"
                 @click="openModal(tipo)"
