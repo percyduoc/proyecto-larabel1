@@ -1,29 +1,30 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
-    <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Tipos de Venta</h1>
+     
+    <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Gestión de Tipos de Venta</h1>
 
     <!-- Lista de Tipos de Venta -->
     <div class="mb-6 bg-white p-6 shadow-md rounded-md">
       <button
-        class="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
+        class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
         @click="openModal()"
       >
         Crear Tipo de Venta
       </button>
       <h2 class="text-xl font-semibold mb-2">Lista de Tipos de Venta</h2>
-      <table class="w-full border-collapse border border-gray-300">
+      <table class="w-full border-collapse odd:bg-gray-50 even:bg-white hover:bg-gray-100">
         <thead>
-          <tr>
+          <tr class="bg-gray-200 text-gray-700">
             <th class="p-3 text-left">Nombre</th>
             <th class="p-3 text-left">Estado</th>
             <th class="p-3 text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="tipoVenta in tipoVentas" :key="tipoVenta.id" class="hover:bg-gray-100">
-            <td class="p-3 text-left">{{ tipoVenta.nombre }}</td>
-            <td class="p-3 text-left">{{ tipoVenta.estado ? 'Activo' : 'Inactivo' }}</td>
-            <td class="p-3 text-left ">
+          <tr v-for="tipoVenta in tipoVentas" :key="tipoVenta.id" class="odd:bg-gray-50 even:bg-white hover:bg-gray-100">
+            <td class="p-3 text-gray-800">{{ tipoVenta.nombre }}</td>
+            <td class="p-3 text-gray-800">{{ tipoVenta.estado ? 'Activo' : 'Inactivo' }}</td>
+            <td class="p-3 text-gray-800">
               <button
                 class="text-yellow-200 hover:text-yellow-600 px-2"
                 @click="openModal(tipoVenta)"

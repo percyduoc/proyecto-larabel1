@@ -42,7 +42,7 @@
             <td class="p-3 text-gray-800">
               {{ cuenta.estado ? 'Activo' : 'Inactivo' }}
             </td>
-            <td class="p-3 text-gray-800 bg-green-200 rounded-full  ">{{ cuenta.total_cuenta }}</td>
+            <td class="p-3 text-gray-800 bg-green-200 rounded-full ">{{ cuenta.total_cuenta }}</td>
             <td class="p-3 flex justify-center gap-2">
               <button
                 class="text-yellow-500 hover:text-yellow-600"
