@@ -13,7 +13,7 @@ class DetalleCuenta extends Model
 
     protected $fillable = [
         'id_cuenta',
-        'id_producto',
+        'id_prestaciones',
         'cantidad_producto',
         'valor_producto',
         'estado',
@@ -30,8 +30,19 @@ class DetalleCuenta extends Model
     /**
      * Relación con el modelo Producto.
      */
-    public function producto()
+    public function prestacion()
     {
-        return $this->belongsTo(Producto::class, 'id_producto', 'codigo');
+        return $this->belongsTo(Prestacion::class, 'id_prestaciones', 'codigo');
+    }
+    public function tipoPrestacion()
+    {
+        return $this->hasOneThrough(
+            TipoPrestacion::class,
+            Prestacion::class,
+            'codigo',              // Clave f en Prestacion.
+            'id',                  // Clave pri en TipoPrestacion.
+            'id_prestaciones',     // Clave f en DetalleCuenta.
+            'tipo_prestacion_id'   // Clave f en Prestacion.
+        );
     }
 }

@@ -15,4 +15,9 @@ class TipoPrestacion extends Model
         'descripcion',
     ];
     protected $table = 'tipo_prestaciones';
+
+    public function prestaciones()
+    {
+        return $this->hasMany(Prestacion::class, 'tipo_prestacion_id', 'id');
+    }
 }

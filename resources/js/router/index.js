@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import List from '../components/List.vue';
-import Create from '../components/Create.vue';
-import Edit from '../components/Edit.vue';
+
+
 import Sucursal from '../components/Sucursal.vue';
 import sucursalEdit from '../components/sucursal-edit.vue';
 import Prestaciones from '../components/Prestaciones.vue';
@@ -15,10 +14,7 @@ import CuentaDetalle from '../components/CuentaDetalle.vue';
 import CrearDetalle from '../components/CrearDetalle.vue';
 
 const routes = [
-    { path: '/producto', name: 'List', component: List },
-    { path: '/create', name: 'Create', component: Create },
-    { path: '/edit/:id', name: 'Edit', component: Edit },
-    {path: '/producto/edit/:id',name: 'editProducto',component: Edit,},
+
     {path: '/sucursal',name: 'sucursales',component: Sucursal,},
     {path: '/sucursal/edit/:id',name: 'sucursal-edit',component: sucursalEdit,},
     {path: '/prestacion',name: 'prestaciones',component: Prestaciones,},

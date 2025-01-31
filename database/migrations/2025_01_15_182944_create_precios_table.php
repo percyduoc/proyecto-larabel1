@@ -10,8 +10,7 @@ return new class extends Migration
     {
         Schema::create('precios', function (Blueprint $table) {
             $table->id();
-            $table->string('id_producto');
-            $table->string('id_prestacion');
+            $table->string('id_prestaciones');
             $table->integer('valor');
             $table->date('fecha_desde');
             $table->date('fecha_hasta')->nullable();
@@ -19,8 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Relaciones
-            $table->foreign('id_producto')->references('codigo')->on('productos')->onDelete('cascade');
-            $table->foreign('id_prestacion')->references('codigo')->on('prestaciones')->onDelete('cascade');
+            $table->foreign('id_prestaciones')->references('codigo')->on('prestaciones')->onDelete('cascade');
         });
     }
 

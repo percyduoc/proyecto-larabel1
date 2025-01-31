@@ -1,17 +1,23 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
-    <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Precios</h1>
+    <header class="w-full bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Precios</h1>
+      <p class="text-center mt-2">Gestiona tus precios </p>
+    </header>
 
     <!-- Lista de precios -->
     <div class="bg-white p-6 shadow-lg rounded-lg mb-6">
-      <h2 class="text-xl font-semibold mb-4">Lista de Precios</h2>
-      <button @click="openModal" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green  -700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold mb-4">Lista de Precios</h2>
+        <button @click="openModal" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md">
     Crear Precio
   </button>
+    
+    </div>
+    <div class="overflow-x-auto">
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th class="p-3 text-left">Producto</th>
             <th class="p-3 text-left">Prestación</th>
             <th class="p-3 text-left">Valor</th>
             <th class="p-3 text-left">Fecha Desde</th>
@@ -22,8 +28,7 @@
         </thead>
         <tbody>
           <tr v-for="precio in precios" :key="precio.id">
-            <td class="p-3 text-left">{{ precio.producto?.nombre }}</td>
-            <td class="p-3 text-left">{{ precio.prestacion?.nombre }}</td>
+            <td class="p-3 text-left">{{ precio.prestaciones?.nombre }}</td>
             <td class="p-3 text-left">{{ precio.valor }}</td>
             <td class="p-3 text-left">{{ precio.fecha_desde }}</td>
             <td class="p-3 text-left">{{ precio.fecha_hasta || 'N/A' }}</td>
@@ -39,9 +44,9 @@
           </tr>
         </tbody>
       </table>
-  
+      
     </div>
-
+    </div>
     <!-- Modal -->
     <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50 z-50">
      
@@ -49,29 +54,40 @@
        
         <h2 class="text-2xl font-bold mb-6 text-center">{{ editing ? 'Editar Precio' : 'Crear Precio' }}</h2>
         <form @submit.prevent="savePrecio" class="space-y-6">
-          <div>
-            <label for="producto" class="block text-sm font-medium text-gray-700">Producto:</label>
-            <select v-model="form.id_producto" id="producto" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <option v-for="producto in productos" :key="producto.codigo" :value="producto.codigo">{{ producto.nombre }}</option>
-            </select>
-          </div>
+
           <div>
             <label for="prestacion" class="block text-sm font-medium text-gray-700">Prestación:</label>
-            <select v-model="form.id_prestacion" id="prestacion" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <option v-for="prestacion in prestaciones" :key="prestacion.codigo" :value="prestacion.codigo">{{ prestacion.nombre }}</option>
-            </select>
+            <select v-model="form.id_prestaciones" id="prestacion" required>
+          <option v-for="prestacion in prestaciones" :key="prestacion.codigo" :value="prestacion.codigo">
+              {{ prestacion.nombre }}
+           </option>
+         </select>
           </div>
           <div>
             <label for="valor" class="block text-sm font-medium text-gray-700">Valor:</label>
-            <input type="number" v-model="form.valor" id="valor" required class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+            <input type="number" v-model="form.valor" id="valor" min="0"  required class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
           </div>
           <div>
             <label for="fecha_desde" class="block text-sm font-medium text-gray-700">Fecha Desde:</label>
-            <input type="date" v-model="form.fecha_desde" id="fecha_desde" required class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+            <input
+              type="date"
+              v-model="form.fecha_desde"
+              id="fecha_desde"
+              required
+              class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              @change="updateFechaHasta"
+            />
           </div>
+
           <div>
             <label for="fecha_hasta" class="block text-sm font-medium text-gray-700">Fecha Hasta:</label>
-            <input type="date" v-model="form.fecha_hasta" id="fecha_hasta" class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+            <input
+              type="date"
+              v-model="form.fecha_hasta"
+              id="fecha_hasta"
+              :min="form.fecha_desde"
+              class="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
           </div>
           <div>
             <label for="estado" class="block text-sm font-medium text-gray-700">Estado:</label>
@@ -98,11 +114,10 @@ export default {
   data() {
     return {
       precios: [],
-      productos: [],
       prestaciones: [],
       form: {
         id_producto: '',
-        id_prestacion: '',
+        id_prestaciones: '',
         valor: '',
         fecha_desde: '',
         fecha_hasta: '',
@@ -113,11 +128,9 @@ export default {
     };
   },
   methods: {
+
     fetchPrecios() {
       axios.get('/api/precios').then((response) => (this.precios = response.data));
-    },
-    fetchProductos() {
-      axios.get('/api/productos').then((response) => (this.productos = response.data));
     },
     fetchPrestaciones() {
       axios.get('/api/prestaciones').then((response) => (this.prestaciones = response.data));
@@ -147,7 +160,6 @@ export default {
     },
     resetForm() {
       this.form = {
-        id_producto: '',
         id_prestacion: '',
         valor: '',
         fecha_desde: '',
@@ -165,7 +177,7 @@ export default {
   },
   mounted() {
     this.fetchPrecios();
-    this.fetchProductos();
+
     this.fetchPrestaciones();
   },
 };

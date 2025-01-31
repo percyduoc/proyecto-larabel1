@@ -21,8 +21,10 @@ class Prestacion extends Model
         'estado',
     ];
 
+   
     public function tipoPrestacion()
     {
-        return $this->belongsTo(TipoPrestacion::class);
+        return $this->belongsTo(TipoPrestacion::class, 'tipo_prestacion_id', 'id');
     }
+    
 }

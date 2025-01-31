@@ -1,25 +1,31 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
-    <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Tipos de Prestación</h1>
+    <header class="w-full bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Tipos de prestaciones </h1>
+      <p class="text-center mt-2">Gestiona todos tus tipos de prestacion </p>
+    </header>
 
     <!-- Lista de tipos de prestación -->
     <div class="bg-white p-6 shadow-lg rounded-lg mb-6">
-          <!-- Botón para abrir el modal -->
-    <button
-      class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold mb-4">Lista de Tipos de Prestación</h2>
+        <button
+      class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
       @click="openModal()"
     >
       Crear Nuevo Tipo de Prestación
     </button>
 
-      <h2 class="text-xl font-semibold mb-4">Lista de Tipos de Prestación</h2>
+      
+      </div>
+      <div class="overflow-x-auto"> 
       <table class="w-full border-collapse border border-gray-300 text-sm">
         <thead>
           <tr class="bg-gray-200">
-            <th class="p-3 text-left text-left">Nombre</th>
-            <th class="p-3 text-left text-left">Estado</th>
-            <th class="p-3 text-left text-left">Descripción</th>
-            <th class="p-3 text-left text-center">Acciones</th>
+            <th class="p-3 text-left ">Nombre</th>
+            <th class="p-3 text-left ">Estado</th>
+            <th class="p-3 text-left">Descripción</th>
+            <th class="p-3 text-left ">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +33,7 @@
             <td class="p-3 text-left">{{ tipo.nombre }}</td>
             <td class="p-3 text-left">{{ tipo.estado ? 'Activo' : 'Inactivo' }}</td>
             <td class="p-3 text-left">{{ tipo.descripcion }}</td>
-            <td class="p-3 text-left text-center">
+            <td class="p-3 text-left ">
               <button
                 class="text-yellow-200 hover:text-yellow-600 px-2"
                 @click="openModal(tipo)"
@@ -44,6 +50,7 @@
           </tr>
         </tbody>
       </table>
+    </div>
     </div>
 
 
@@ -62,6 +69,7 @@
             <input
               v-model="form.nombre"
               type="text"
+              @input="validateNombre"
               placeholder="Nombre"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
               required
@@ -71,7 +79,9 @@
             <label class="block text-sm font-medium mb-1">Descripción:</label>
             <textarea
               v-model="form.descripcion"
+              @input="validateDescripcion"
               placeholder="Descripción"
+              required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
             ></textarea>
           </div>
@@ -79,6 +89,7 @@
             <label class="block text-sm font-medium mb-1">Estado:</label>
             <select
               v-model="form.estado"
+              default="true"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
             >
               <option :value="true">Activo</option>
@@ -124,6 +135,14 @@ export default {
     };
   },
   methods: {
+    validateNombre(){
+      this.form.nombre = this.form.nombre.replace(/[^a-zA-Z0-9 ]/g, "");
+    },
+    validateDescripcion(){
+      this.form.descripcion = this.form.descripcion.replace(/[^a-zA-Z0-9 ]/g, "");
+    },
+  
+
     fetchTiposPrestacion() {
       axios.get("/api/tipo-prestaciones").then((response) => {
         this.tipoPrestaciones = response.data;

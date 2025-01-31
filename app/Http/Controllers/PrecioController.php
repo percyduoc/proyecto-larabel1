@@ -10,15 +10,14 @@ class PrecioController extends Controller
 {
     public function index()
     {
-        return Precio::with(['producto', 'prestacion'])->get();
+        return Precio::with(['prestaciones',])->get();
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_producto' => 'required|exists:productos,codigo',
-            'id_prestacion' => 'required|exists:prestaciones,codigo',
-            'valor' => 'required|integer',
+            'id_prestaciones' => 'required|exists:prestaciones,codigo',
+            'valor' => 'required|integer|min : 0',
             'fecha_desde' => 'required|date',
             'fecha_hasta' => 'nullable|date|after_or_equal:fecha_desde',
             'estado' => 'required|boolean',
@@ -30,15 +29,14 @@ class PrecioController extends Controller
 
     public function show($id)
     {
-        $precio = Precio::with(['producto', 'prestacion'])->findOrFail($id);
+        $precio = Precio::with(['prestaciones',])->findOrFail($id);
         return response()->json($precio);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_producto' => 'required|exists:productos,codigo',
-            'id_prestacion' => 'required|exists:prestaciones,codigo',
+            'id_prestaciones' => 'required|exists:prestaciones,codigo',
             'valor' => 'required|integer',
             'fecha_desde' => 'required|date',
             'fecha_hasta' => 'nullable|date|after_or_equal:fecha_desde',

@@ -1,6 +1,9 @@
 <template>
   <div class="p-6 bg-gray-50 min-h-screen w-full">
-    <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Gestión de Cuentas</h1>
+    <header class="w-full bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Cuentas </h1>
+      <p class="text-center mt-2">Gestiona todas tus Cuentas </p>
+    </header>
 
     <!-- Lista de cuentas -->
     <div class="bg-white p-6 shadow-lg rounded-lg mb-6">
@@ -8,12 +11,13 @@
         <h2 class="text-2xl font-semibold text-gray-700">Lista de Cuentas</h2>
         <button
           @click="openModal()"
-          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
+          class="bg-blue-600 text-white px-4 py-4 rounded-md hover:bg-blue-700 shadow-md"
         >
           Crear Nueva Cuenta
         </button>
       </div>
-      <table class="w-full border-collapse bg-white rounded-md overflow-hidden">
+      <div class="overflow-x-auto"> 
+      <table class="w-full border-collapse bg-white py-4 rounded-md overflow-hidden">
         <thead>
           <tr class="bg-gray-200 text-gray-700">
             <th class="p-3 text-left">Nombre</th>
@@ -42,8 +46,10 @@
             <td class="p-3 text-gray-800">
               {{ cuenta.estado ? 'Activo' : 'Inactivo' }}
             </td>
-            <td class="p-3 text-gray-800 bg-green-200 rounded-full ">{{ cuenta.total_cuenta }}</td>
-            <td class="p-3 flex justify-center gap-2">
+            <td class="p-3 text-gray-800 ">
+            {{ formatCurrency(cuenta.total_cuenta) }}
+        </td>
+               <td class="p-3 flex justify-center gap-2">
               <button
                 class="text-yellow-500 hover:text-yellow-600"
                 @click="editCuenta(cuenta)"
@@ -67,7 +73,7 @@
         </tbody>
       </table>
     </div>
-
+    </div>
     <!-- Modal de formulario -->
     <div
       v-if="showModal"
@@ -85,6 +91,7 @@
             <input
               id="nombre"
               v-model="form.nombre"
+              @input="validateName"
               required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
@@ -98,6 +105,7 @@
             <input
               id="direccion"
               v-model="form.direccion"
+              @input="validateAdress"
               required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
@@ -117,6 +125,7 @@
               <option
                 v-for="sucursal in sucursales"
                 :key="sucursal.id"
+                required
                 :value="sucursal.id"
               >
                 {{ sucursal.nombre }}
@@ -138,6 +147,7 @@
               <option
                 v-for="tipoVenta in tipoVentas"
                 :key="tipoVenta.id"
+                required
                 :value="tipoVenta.id"
               >
                 {{ tipoVenta.nombre }}
@@ -161,7 +171,7 @@
           <div class="flex items-center justify-end gap-3">
             <button
               type="button"
-              @click="closeModal"
+              @click="cancelEdit"
               class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
             >
               Cerrar
@@ -200,6 +210,14 @@
       };
     },
     methods: {
+      validateAdress() {
+        this.form.direccion = this.form.direccion.replace(/[^a-á-zA-Z0-9 ]/g, '');
+      
+      },
+      validateName() {
+        this.form.nombre = this.form.nombre.replace(/[^a-zA-Z ]/g, '');
+    
+      },
       fetchCuentas() {
     axios
       .get('/api/cuentas')
@@ -212,7 +230,11 @@
       .catch((error) => {
         console.error('Error al obtener cuentas:', error);
       });
-  },
+      },
+      // Formatear el total de la cuenta a clp con formato
+      formatCurrency(value) {
+      return `$${value.toLocaleString('es-CL')}`;
+    },
       fetchSucursales() {
         axios
           .get("/api/sucursales")

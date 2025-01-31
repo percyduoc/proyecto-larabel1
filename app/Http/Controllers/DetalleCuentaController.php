@@ -16,7 +16,7 @@ class DetalleCuentaController extends Controller
         if ($cuentaId) {
             // Filtra los detalles de la cuenta con el ID proporcionado
             
-            $detalles = DetalleCuenta::with(['cuenta', 'producto'])
+            $detalles = DetalleCuenta::with(['cuenta', 'prestacion','tipoPrestacion'])
                 ->where('id_cuenta', $cuentaId) // Filtra por cuenta_id
                 ->get();
     
@@ -28,7 +28,7 @@ class DetalleCuentaController extends Controller
         }
     
         // Si no se pasa  devuelve todos los detalles
-        $detalles = DetalleCuenta::with(['cuenta', 'producto'])->get();
+        $detalles = DetalleCuenta::with(['cuenta', 'prestacion','tipoPrestacion'])->get();
     
         if ($detalles->isEmpty()) {
             return response()->json(['message' => 'No hay detalles de cuenta registrados', 'status' => 200], 200);
@@ -41,7 +41,6 @@ class DetalleCuentaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_cuenta' => 'required|exists:cuentas,id',
-            'id_producto' => 'required|exists:productos,codigo',
             'cantidad_producto' => 'required|integer|min:1',
             'valor_producto' => 'required|integer|min:1',
             'estado' => 'required|boolean',
@@ -66,7 +65,7 @@ class DetalleCuentaController extends Controller
 
     public function show($id)
     {
-        $detalle = DetalleCuenta::with(['cuenta', 'producto'])->find($id);
+        $detalle = DetalleCuenta::with(['cuenta', 'prestacion'])->find($id);
 
         if (!$detalle) {
             return response()->json(['message' => 'Detalle de cuenta no encontrado', 'status' => 404], 404);
@@ -85,7 +84,6 @@ class DetalleCuentaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id_cuenta' => 'exists:cuentas,id',
-            'id_producto' => 'exists:productos,codigo',
             'cantidad_producto' => 'integer|min:1',
             'valor_producto' => 'integer|min:1',
             'estado' => 'boolean',

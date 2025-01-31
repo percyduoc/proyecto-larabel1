@@ -1,6 +1,6 @@
 <template>
     <div class="p-6 bg-gray-100 min-h-screen w-full">
-      <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Detalles de Ventas</h1>
+      <h1 class="text-4xl font-bold mb-6 text-center">Gestión de Detalles de Ventas</h1>
   
       <!-- Lista de detalles -->
       <div class="bg-white p-6 shadow-lg rounded-lg mb-6">
@@ -25,9 +25,10 @@
           </thead>
           <tbody>
             <tr v-for="detalle in detalles" :key="detalle.id" class="hover:bg-gray-100">
-                <td class="border border-gray-300 p-2">{{ detalle.cuenta.nombre  }}</td>
-                <td class="border border-gray-300 p-2">{{  detalle.producto.nombre  }}</td>
 
+
+              <td class="border border-gray-300 p-2">{{ detalle.cuenta ? detalle.cuenta.nombre : '' }}</td>
+              <td class="border border-gray-300 p-2">{{ detalle.prestacion ? detalle.prestacion.nombre : '' }}</td>
               <td class="border border-gray-300 p-2">{{ detalle.cantidad_producto }}</td>
               <td class="border border-gray-300 p-2">{{ detalle.valor_producto }}</td>
               <td class="border border-gray-300 p-2">{{ detalle.estado ? 'Activo' : 'Inactivo' }}</td>
@@ -62,17 +63,11 @@
                 <option v-for="cuenta in cuentas" :key="cuenta.id" :value="cuenta.id">{{ cuenta.nombre }}</option>
               </select>
             </div>
-            <div>
-              <label for="id_producto" class="block text-sm font-medium text-gray-700">Producto:</label>
-              <select
-                id="id_producto"
-                v-model="form.id_producto"
-                required
-                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option v-for="producto in productos" :key="producto.codigo" :value="producto.codigo">{{ producto.nombre }}</option>
-              </select>
-            </div>
+            <!-- prestaciones -->
+             <div>
+             
+              <label for="id_prestacion" class="block text-sm font-medium text-gray-700">Prestacion</label>
+             </div>
             <div>
               <label for="cantidad_producto" class="block text-sm font-medium text-gray-700">Cantidad:</label>
               <input
@@ -143,10 +138,9 @@
         props: ['id'], 
         detalles: [],
         cuentas: [],
-        productos: [],
         form: {
           id_cuenta: '',
-          id_producto: '',
+
           cantidad_producto: '',
           valor_producto: '',
           estado: 1, // Activo por defecto
@@ -165,9 +159,7 @@
         (this.cuentas = response.data));
        
       },
-      fetchProductos() {
-        axios.get('/api/productos').then((response) => (this.productos = response.data));
-      },
+ 
       saveDetalle() {
         const action = this.editing
           ? axios.put(`/api/detalles/${this.form.id}`, this.form)
@@ -212,7 +204,7 @@
         this.showModal = false;
       },
       resetForm() {
-        this.form = { id_cuenta: '', id_producto: '', cantidad_producto: '', valor_producto: '', estado: 1 };
+        this.form = { id_cuenta: '', cantidad_producto: '', valor_producto: '', estado: 1 };
         this.editing = false;
       },
       cancelEdit() {
@@ -223,7 +215,7 @@
     mounted() {
       this.fetchDetalles();
       this.fetchCuentas();
-      this.fetchProductos();
+     
     }
   };
   </script>

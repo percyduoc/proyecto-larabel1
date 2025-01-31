@@ -77,25 +77,31 @@ class CuentaController extends Controller
 
         return response()->json(['message' => 'Cuenta eliminada correctamente.'], 200);
     }
-    public function getTotalCuenta($id)
+    // public function getTotalCuenta($id)
+    // {
+    //     $totalCuenta = DB::table('cuentas as c')
+    //         ->select(
+    //             'c.id as id_cuenta',
+    //             'c.nombre as nombre_cuenta',
+    //             DB::raw('SUM(dc.valor_producto * dc.cantidad_producto) as total_cuenta')
+    //         )
+    //         ->join('detalle_cuentas as dc', 'c.id', '=', 'dc.id_cuenta')
+    //         ->where('c.id', $id)
+    //         ->groupBy('c.id', 'c.nombre')
+    //         ->first();X 
+
+    //     if (!$totalCuenta) {
+    //         return response()->json(['message' => 'Cuenta no encontrada o sin detalles.'], 404);
+    //     }
+
+    //     return response()->json($totalCuenta);
+    // }
+    
+    public function countCuentas()
     {
-        $totalCuenta = DB::table('cuentas as c')
-            ->select(
-                'c.id as id_cuenta',
-                'c.nombre as nombre_cuenta',
-                DB::raw('SUM(dc.valor_producto * dc.cantidad_producto) as total_cuenta')
-            )
-            ->join('detalle_cuentas as dc', 'c.id', '=', 'dc.id_cuenta')
-            ->where('c.id', $id)
-            ->groupBy('c.id', 'c.nombre')
-            ->first();
-
-        if (!$totalCuenta) {
-            return response()->json(['message' => 'Cuenta no encontrada o sin detalles.'], 404);
-        }
-
-        return response()->json($totalCuenta);
+        $count = Cuenta::count(); // Esto contará todas las cuentas
+        return response()->json(['count' => $count]);
     }
-
+    
 
 }

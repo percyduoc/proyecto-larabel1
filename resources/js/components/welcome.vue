@@ -1,96 +1,113 @@
 <template>
-    <div class="p-6 bg-gray-100 min-h-screen w-full">
-      <h1 class="text-4xl font-bold mb-6 text-center">Bienvenido</h1>
-      <p class="text-center mb-8 text-lg">Selecciona una opción para gestionar las diferentes entidades de la aplicación.</p>
-  
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="bg-gray-50 min-h-screen items-center">
+    <!-- Título -->
+    <header class="w-full bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Bienvenido </h1>
+      <p class="text-center mt-2">Gestiona todos tus servicios en un solo lugar</p>
+    </header>
+
+    <!-- Dashboard Principal -->
+    <div class="w-full max-w-7xl mx-auto p-1 mt-1 ">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Panel de Estadísticas -->
+        <div class="bg-white shadow-lg rounded-lg p-6  items-center justify-between">
+          <h3 class="text-2xl font-semibold mb-4">Cuentas Creadas</h3>
+          <div class="text-4xl font-bold text-blue-600">
+            {{ totalCuentas }}
+          </div>
+          <button 
+            @click="navigateTo('/cuentas')" 
+            class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all duration-200">
+            Ver Cuentas
+          </button>
+        </div>
+
         <!-- Enlace a Tipos de Venta -->
-        <div class="bg-white shadow-md rounded-lg p-4 text-center">
+        <div class="bg-white shadow-lg rounded-lg p-6">
           <h2 class="text-2xl font-semibold mb-4">Tipos de Venta</h2>
           <p class="mb-4">Administra los tipos de venta disponibles.</p>
-          <button
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            @click="navigateTo('/tipo-ventas')"
+          <button 
+            @click="navigateTo('/tipo-ventas')" 
+            class="w-full py-2 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
           >
             Ir a Tipos de Venta
           </button>
         </div>
-  
+
         <!-- Enlace a Precios -->
-        <div class="bg-white shadow-md rounded-lg p-4 text-center">
+        <div class="bg-white shadow-lg rounded-lg p-6">
           <h2 class="text-2xl font-semibold mb-4">Precios</h2>
           <p class="mb-4">Gestiona los precios de productos y servicios.</p>
-          <button
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            @click="navigateTo('/precio')"
+          <button 
+            @click="navigateTo('/precio')" 
+            class="w-full py-2 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
           >
             Ir a Precios
           </button>
         </div>
-  
+
         <!-- Enlace a Productos -->
-        <div class="bg-white shadow-md rounded-lg p-4 text-center">
-          <h2 class="text-2xl font-semibold mb-4">Productos</h2>
-          <p class="mb-4">Gestiona los productos disponibles.</p>
-          <button
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            @click="navigateTo('/producto')"
+        <div class="bg-white shadow-lg rounded-lg p-6">
+          <h2 class="text-2xl font-semibold mb-4">Categorias</h2>
+          <p class="mb-4">Gestiona las categorias disponibles.</p>
+          <button 
+            @click="navigateTo('/tipoprestacion')" 
+            class="w-full py-2 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
           >
-            Ir a Productos
+            Ir a Categorias
           </button>
         </div>
-  
-        <!-- Enlace a Prestaciones -->
-        <div class="bg-white shadow-md rounded-lg p-4 text-center">
-          <h2 class="text-2xl font-semibold mb-4">Prestaciones</h2>
-          <p class="mb-4">Administra las prestaciones ofrecidas.</p>
-          <button
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            @click="navigateTo('/prestacion')"
-          >
-            Ir a Prestaciones
-          </button>
-        </div>
-  
+
         <!-- Enlace a Sucursales -->
-        <div class="bg-white shadow-md rounded-lg p-4 text-center">
+        <div class="bg-white shadow-lg rounded-lg p-6">
           <h2 class="text-2xl font-semibold mb-4">Sucursales</h2>
           <p class="mb-4">Gestiona las sucursales de tu negocio.</p>
-          <button
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            @click="navigateTo('/sucursal')"
+          <button 
+            @click="navigateTo('/sucursal')" 
+            class="w-full py-2 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200"
           >
             Ir a Sucursales
           </button>
         </div>
-  
-        <!-- Enlace a Tipos de Prestaciones -->
-        <div class="bg-white shadow-md rounded-lg p-4 text-center">
-          <h2 class="text-2xl font-semibold mb-4">Tipos de Prestaciones</h2>
-          <p class="mb-4">Administra las categorías de prestaciones.</p>
-          <button
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            @click="navigateTo('/tipoprestacion')"
-          >
-            Ir a Tipos de Prestaciones
-          </button>
-        </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    methods: {
-      navigateTo(route) {
-        // Deriva a las rutas de tus vistas Blade
-        window.location.href = route;
-      },
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      cuentas: [],  // Aquí se almacenarán las cuentas
+      totalCuentas: 0,  // Aquí se almacenará la cantidad de cuentas
+    };
+  },
+  mounted() {
+    this.fetchCuentasCount();
+    console.log(this.fetchCuentasCount());  
+  },
+  methods: {
+      async fetchCuentasCount() {
+        axios
+      .get('/api/cuentas')
+      .then((response) => {
+        this.cuentas = response.data;
+        this.totalCuentas = this.cuentas.length;
+      })
+      .catch((error) => {
+        console.error('Error al obtener cuentas:', error);
+      });
     },
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos adicionales */
-  </style>
-  
+      navigateTo(route) {
+      this.$router.push(route);
+    }
+
+  },  
+
+
+};
+</script>
+
+<style scoped>
+/* Puedes agregar estilos personalizados aquí si es necesario */
+</style>

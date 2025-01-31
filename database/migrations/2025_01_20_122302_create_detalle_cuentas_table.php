@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('detalle_cuentas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_cuenta')->constrained('cuentas')->onDelete('cascade');
-            $table->string('id_producto');
+            $table->string('id_prestaciones');
             $table->integer('cantidad_producto');
             $table->integer('valor_producto');
             $table->boolean('estado')->default(true); // Activo por defecto
             $table->timestamps();
 
             // Definimos la clave foránea con el prefijo correcto
-            $table->foreign('id_producto')
+            $table->foreign('id_prestaciones')
                 ->references('codigo')
-                ->on('productos')
+                ->on('prestaciones')
                 ->onDelete('cascade');
         });
     }

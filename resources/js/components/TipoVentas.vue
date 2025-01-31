@@ -1,17 +1,24 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
      
-    <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Gestión de Tipos de Venta</h1>
+    <header class="w-full  bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Ventas </h1>
+      <p class="text-center mt-2">Gestiona todos tus Ventas </p>
+    </header>
 
     <!-- Lista de Tipos de Venta -->
     <div class="mb-6 bg-white p-6 shadow-md rounded-md">
-      <button
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold mb-2">Lista de Tipos de Venta</h2>
+        <button
         class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
         @click="openModal()"
       >
-        Crear Tipo de Venta
+        Crear Ventas
       </button>
-      <h2 class="text-xl font-semibold mb-2">Lista de Tipos de Venta</h2>
+    
+      </div>
+      <div class="overflow-x-auto"> 
       <table class="w-full border-collapse odd:bg-gray-50 even:bg-white hover:bg-gray-100">
         <thead>
           <tr class="bg-gray-200 text-gray-700">
@@ -41,7 +48,7 @@
           </tr>
         </tbody>
       </table>
-   
+      </div>
     </div>
 
     <!-- Modal -->
@@ -60,6 +67,7 @@
             <input
               type="text"
               v-model="form.nombre"
+              @input="validateNombre"
               id="nombre"
               required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
@@ -73,6 +81,8 @@
             <select
               v-model="form.estado"
               id="estado"
+              required
+              default="1"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             >
               <option :value="1">Activo</option>
@@ -119,6 +129,10 @@ export default {
     };
   },
   methods: {
+    validateNombre() {
+    this.form.nombre = this.form.nombre.replace(/[^a-zA-Z0-9 ]/g, "");
+     
+    },
     fetchTipoVentas() {
       axios.get("/api/tipo-ventas").then((response) => {
         this.tipoVentas = response.data;

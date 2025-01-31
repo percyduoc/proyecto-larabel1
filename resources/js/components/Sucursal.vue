@@ -1,19 +1,25 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
-    <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Gestionar Sucursales</h1>
-    <button
+    <header class="w-full bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Sucursales </h1>
+      <p class="text-center mt-2">Gestiona todos tus Sucursales </p>
+    </header>
+   
+    <!-- Lista de Sucursales -->
+    <div class="bg-white p-6 shadow-lg rounded-lg mb-6  ">
+
+      <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-semibold text-gray-700">Lista de Sucursales</h2>
+          <button
       class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
       @click="openModal()"
     >
       Crear Nueva Sucursal
     </button>
-    <!-- Lista de Sucursales -->
-    <div class="bg-white p-6 shadow-lg rounded-lg mb-6  ">
-          <!-- Botón para abrir el modal -->
-  
-
-      <h2 class="text-2xl font-semibold text-gray-700">Lista de Sucursales</h2>
-      <table class="w-full border-collapse bg-white rounded-md overflow-hidden">
+     
+    </div>
+    <div class="overflow-x-auto"> 
+    <table class="w-full border-collapse  bg-white rounded-md overflow-hidden">
         <thead>
           <tr class="bg-gray-200 text-gray-700">
          
@@ -68,6 +74,7 @@
             <input
               v-model="form.nombre"
               type="text"
+              @input="validateNombre"
               placeholder="Nombre"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
               required
@@ -78,6 +85,7 @@
             <input
               v-model="form.region"
               type="text"
+              @input="validateRegion"
               placeholder="Región"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
               required
@@ -87,6 +95,7 @@
             <label class="block text-sm font-medium mb-1">Descripción:</label>
             <textarea
               v-model="form.descripcion"
+              @input="validateDescripcion"
               placeholder="Descripción"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
             ></textarea>
@@ -95,6 +104,7 @@
             <label class="block text-sm font-medium mb-1">Estado:</label>
             <select
               v-model="form.estado"
+              default="1"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500"
             >
               <option :value="1">Activo</option>
@@ -118,6 +128,7 @@
           </div>
         </form>
       </div>
+    </div> 
     </div>
   </div>
 </template>
@@ -141,6 +152,15 @@ export default {
     };
   },
   methods: {
+    validateNombre(){
+      this.form.nombre = this.form.nombre.replace(/[^a-á-zA-Z0-9 ]/g, ''); 
+    },
+    validateRegion(){
+      this.form.region = this.form.region.replace(/[^a-á-zA-Z0-9 ]/g, ''); 
+    },
+    validateDescripcion(){
+      this.form.descripcion = this.form.descripcion.replace(/[^a-á-zA-Z0-9 ]/g, ''); 
+    },
     fetchSucursales() {
       axios
         .get("/api/sucursales")

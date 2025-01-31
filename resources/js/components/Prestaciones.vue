@@ -1,17 +1,23 @@
 <template>
   <div class="p-6 bg-gray-100 min-h-screen w-full">
-    <h1 class="text-3xl font-bold mb-6 text-center">Gestión de Prestaciones</h1>
+    <header class="w-full bg-blue-600 text-white py-6 shadow-sm  ">
+      <h1 class="text-4xl font-extrabold text-center">Prestaciones</h1>
+      <p class="text-center mt-2">Gestiona todos tus prestaciones
+      </p>
+    </header>
 
     <!-- Lista de prestaciones -->
     <div class="bg-white p-6 shadow-lg rounded-lg mb-">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold mb-4">Lista de Prestaciones</h2>
       <button
       @click="openModal()"
-      class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+      class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-md"
     >
       Crear Nueva Prestación
     </button>
-      <h2 class="text-xl font-semibold mb-4">Lista de Prestaciones</h2>
-      
+   </div>
+      <div class="overflow-x-auto">
       <table class="w-full border-collapse border border-gray-300">
         <thead>
           <tr>
@@ -42,7 +48,7 @@
         </tbody>
       </table>
     </div>
-
+    </div>
     <!-- Botón para abrir el formulario modal -->
   
 
@@ -56,6 +62,7 @@
             <input
               id="codigo"
               v-model="form.codigo"
+              @input="validateCodigo"
               :disabled="editing"
               required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
@@ -66,6 +73,7 @@
             <input
               id="nombre"
               v-model="form.nombre"
+              @input="validateNombre"
               required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
@@ -87,6 +95,7 @@
               type="number"
               id="valor"
               v-model="form.valor"
+             min="0"
               required
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
@@ -96,6 +105,8 @@
             <select
               id="estado"
               v-model="form.estado"
+              required
+              default="1"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             >
               <option :value="1">Activo</option>
@@ -151,6 +162,14 @@ export default {
     };
   },
   methods: {
+    validateNombre(){
+      this.form.nombre = this.form.nombre.replace(/[^a-á-zA-Z0-9 ]/g, ''); 
+    },
+    validateCodigo(){
+      this.form.codigo = this.form.codigo.replace(/[^a-á-zA-Z0-9 ]/g, ''); 
+    },
+ 
+
     fetchPrestaciones() {
       axios.get('/api/prestaciones').then((response) => (this.prestaciones = response.data));
     },

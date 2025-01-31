@@ -1,25 +1,23 @@
 <template>
     <div class="p-6 bg-gray-100 min-h-screen w-full">
-      <h1 class="text-3xl font-bold mb-6">Agregar Nuevo Detalle</h1>
+      <h1 class="text-4xl font-bold mb-6">Agregar Nuevo Detalle</h1>
       <form @submit.prevent="crearDetalle" class="bg-white p-6 shadow-lg rounded-lg">
-        <!-- Selección de Cuenta -->
-
-  
-        <!-- Selección de Producto -->
+        
+        <!-- Selección de Prestación -->
         <div class="mb-4">
-          <label for="id_producto" class="block text-gray-700 font-semibold">Producto:</label>
-          <select
-            id="id_producto"
-            v-model="detalle.id_producto"
-            required
-            class="w-full px-4 py-2 border rounded-lg"
-          >
-            <option v-for="producto in productos" :key="producto.codigo" :value="producto.codigo">
-              {{ producto.nombre }}
-            </option>
-          </select>
-        </div>
-  
+        <label for="id_prestaciones" class="block text-gray-700 font-semibold">Prestación:</label>
+        <select
+          id="id_prestaciones"
+          v-model="detalle.id_prestaciones"
+          required
+          class="w-full px-4 py-2 border rounded-lg"
+        >
+          <option v-for="prestacion in prestaciones" :key="prestacion.codigo" :value="prestacion.codigo">
+            {{ prestacion.nombre }}
+          </option>
+        </select>
+      </div>
+      
         <!-- Campo de Cantidad -->
         <div class="mb-4">
           <label for="cantidad_producto" class="block text-gray-700 font-semibold">Cantidad:</label>
@@ -75,20 +73,20 @@
   
   <script>
   import axios from "axios";
-  
+
   export default {
     props: ["id"], // Recibe el ID de la cuenta desde la ruta
     data() {
       return {
         detalle: {
           id_cuenta: this.id,
-          id_producto: "",
+          id_prestaciones: "",
           cantidad_producto: 0,
           valor_producto: 0,
           estado: 1, // Por defecto Activo
         },
         cuentas: [], // Lista de cuentas
-        productos: [], // Lista de productos
+        prestaciones: [], // Lista de productos
       };
     },
     methods: {
@@ -106,6 +104,16 @@
     this.$swal.fire('Error', 'Hubo un problema al guardar el detalle.', 'error');
   });
 },
+    fetchPrestaciones() {
+        axios
+          .get("/api/prestaciones")
+          .then((response) => {
+            this.prestaciones = response.data;
+          })
+          .catch((error) => {
+            console.error("Error al cargar las prestaciones:", error);
+          });
+      },
       
       // Obtener la lista de cuentas
       fetchCuentas() {
@@ -119,20 +127,11 @@
           });
       },
       // Obtener la lista de productos
-      fetchProductos() {
-        axios
-          .get("/api/productos")
-          .then((response) => {
-            this.productos = response.data;
-          })
-          .catch((error) => {
-            console.error("Error al cargar los productos:", error);
-          });
-      },
     },
     mounted() {
       this.fetchCuentas();
-      this.fetchProductos();
+      this.fetchPrestaciones();
+
     },
   };
   </script>

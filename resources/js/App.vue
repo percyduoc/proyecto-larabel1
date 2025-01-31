@@ -1,5 +1,5 @@
 <template>
-    <div class="flex grid-cols-6" >
+    <div class=" " >
         
         <adminlte></adminlte>
         <router-view></router-view>
